@@ -1,0 +1,28 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Brain Games - a set of five console mini-games (Hexlet frontend-project-44)",
+  "main": "bin/brain-games.js",
+  "bin": {
+    "brain-games": "bin/brain-games.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TiltStable/frontend-project-44.git"
+  },
+  "keywords": [
+    "hexlet",
+    "brain-games",
+    "console-game"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/TiltStable/frontend-project-44/issues"
+  },
+  "homepage": "https://github.com/TiltStable/frontend-project-44#readme"
+}
