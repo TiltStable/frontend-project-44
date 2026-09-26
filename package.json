@@ -1,13 +1,23 @@
 {
   "name": "@hexlet/code",
-  "version": "1.0.0",
+  "version": "1.6.0",
   "description": "Brain Games - a set of five console mini-games (Hexlet frontend-project-44)",
   "main": "bin/brain-games.js",
   "bin": {
-    "brain-games": "bin/brain-games.js"
+    "brain-games": "bin/brain-games.js",
+    "brain-even": "bin/brain-even.js",
+    "brain-calc": "bin/brain-calc.js",
+    "brain-gcd": "bin/brain-gcd.js",
+    "brain-progression": "bin/brain-progression.js",
+    "brain-prime": "bin/brain-prime.js"
+  },
+  "engines": {
+    "node": ">=22"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test \"src/**/*.test.js\"",
+    "lint": "oxlint && oxfmt --ignore-path=.oxfmtignore --check",
+    "lint:fix": "oxfmt && oxlint --fix"
   },
   "repository": {
     "type": "git",
@@ -24,5 +34,12 @@
   "bugs": {
     "url": "https://github.com/TiltStable/frontend-project-44/issues"
   },
-  "homepage": "https://github.com/TiltStable/frontend-project-44#readme"
+  "homepage": "https://github.com/TiltStable/frontend-project-44#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.70.0",
+    "oxlint": "^1.85.0"
+  }
 }
