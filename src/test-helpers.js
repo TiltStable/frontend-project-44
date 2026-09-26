@@ -1,12 +1,14 @@
-import { mock } from "node:test";
+import { vi } from "vitest";
 
 export const captureOutput = (run) => {
   const messages = [];
-  const log = mock.method(console, "log", (...args) => messages.push(args.join(" ")));
+  const log = vi
+    .spyOn(console, "log")
+    .mockImplementation((...args) => messages.push(args.join(" ")));
   try {
     run();
   } finally {
-    log.mock.restore();
+    log.mockRestore();
   }
   return messages;
 };

@@ -1,21 +1,21 @@
-import { test } from "node:test";
-import assert from "node:assert/strict";
+import { test } from "vitest";
+import { expect } from "vitest";
 import runGame from "../index.js";
 import evenGame, { isEven } from "./even.js";
 import { captureOutput, seqRandom } from "../test-helpers.js";
 
 test("isEven returns true for even numbers and false for odd ones", () => {
-  assert.equal(isEven(0), true);
-  assert.equal(isEven(2), true);
-  assert.equal(isEven(100), true);
-  assert.equal(isEven(1), false);
-  assert.equal(isEven(15), false);
-  assert.equal(isEven(7), false);
+  expect(isEven(0)).toBe(true);
+  expect(isEven(2)).toBe(true);
+  expect(isEven(100)).toBe(true);
+  expect(isEven(1)).toBe(false);
+  expect(isEven(15)).toBe(false);
+  expect(isEven(7)).toBe(false);
 });
 
 test("even game descriptor produces a numeric question and a yes/no answer", () => {
-  assert.deepEqual(evenGame.makeRound(seqRandom([0.04])), { question: "5", answer: "no" });
-  assert.deepEqual(evenGame.makeRound(seqRandom([0.99])), { question: "100", answer: "yes" });
+  expect(evenGame.makeRound(seqRandom([0.04]))).toEqual({ question: "5", answer: "no" });
+  expect(evenGame.makeRound(seqRandom([0.99]))).toEqual({ question: "100", answer: "yes" });
 });
 
 test("player wins after three correct answers in a row", () => {
@@ -27,9 +27,9 @@ test("player wins after three correct answers in a row", () => {
     result = runGame(evenGame, "Sam", ask, seqRandom([0.04, 0.99, 0.08]));
   });
 
-  assert.equal(result, true);
-  assert.equal(askCalls, 3);
-  assert.deepEqual(messages, [
+  expect(result).toBe(true);
+  expect(askCalls).toBe(3);
+  expect(messages).toEqual([
     'Answer "yes" if the number is even, otherwise answer "no".',
     "Question: 5",
     "Correct!",
@@ -47,8 +47,8 @@ test("wrong answer ends the game with the fail message", () => {
     result = runGame(evenGame, "Bill", () => "yes", seqRandom([0.04]));
   });
 
-  assert.equal(result, false);
-  assert.deepEqual(messages, [
+  expect(result).toBe(false);
+  expect(messages).toEqual([
     'Answer "yes" if the number is even, otherwise answer "no".',
     "Question: 5",
     `'yes' is wrong answer ;(. Correct answer was 'no'.`,
@@ -59,7 +59,7 @@ test("wrong answer ends the game with the fail message", () => {
 test("invalid input counts as a wrong answer", () => {
   const messages = captureOutput(() => runGame(evenGame, "Bill", () => "n", seqRandom([0.99])));
 
-  assert.deepEqual(messages, [
+  expect(messages).toEqual([
     'Answer "yes" if the number is even, otherwise answer "no".',
     "Question: 100",
     `'n' is wrong answer ;(. Correct answer was 'yes'.`,

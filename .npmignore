@@ -1,4 +1,5 @@
 .github
 src/**/*.test.js
 src/test-helpers.js
+vitest.config.js
 *.cast

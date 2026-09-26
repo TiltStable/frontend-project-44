@@ -1,5 +1,5 @@
-import { test, mock } from "node:test";
-import assert from "node:assert/strict";
+import { test, vi } from "vitest";
+import { expect } from "vitest";
 import readlineSync from "readline-sync";
 import runGame from "./index.js";
 import { captureOutput } from "./test-helpers.js";
@@ -30,10 +30,10 @@ test("engine runs three rounds and congratulates when all answers are correct", 
     result = runGame(game, "Sam", ask, Math.random);
   });
 
-  assert.equal(result, true);
-  assert.equal(state.makeRoundCalls, 3);
-  assert.deepEqual(prompts, ["Your answer: ", "Your answer: ", "Your answer: "]);
-  assert.deepEqual(messages, [
+  expect(result).toBe(true);
+  expect(state.makeRoundCalls).toBe(3);
+  expect(prompts).toEqual(["Your answer: ", "Your answer: ", "Your answer: "]);
+  expect(messages).toEqual([
     "Fake task?",
     "Question: 1 + 0",
     "Correct!",
@@ -53,9 +53,9 @@ test("engine stops on the first wrong answer and reports the correct one", () =>
     result = runGame(game, "Bill", () => "wrong", Math.random);
   });
 
-  assert.equal(result, false);
-  assert.equal(state.makeRoundCalls, 1);
-  assert.deepEqual(messages, [
+  expect(result).toBe(false);
+  expect(state.makeRoundCalls).toBe(1);
+  expect(messages).toEqual([
     "Fake task?",
     "Question: 1 + 0",
     `'wrong' is wrong answer ;(. Correct answer was '1'.`,
@@ -68,7 +68,7 @@ test("default random is Math.random passed to makeRound", () => {
 
   captureOutput(() => runGame(game, "Sam", () => "1"));
 
-  assert.equal(state.capturedRandom, Math.random);
+  expect(state.capturedRandom).toBe(Math.random);
 });
 
 test("engine fails safely when a descriptor returns a malformed round", () => {
@@ -86,19 +86,21 @@ test("engine fails safely when a descriptor returns a malformed round", () => {
     result = runGame(game, "Sam", () => "anything", Math.random);
   });
 
-  assert.equal(result, false);
-  assert.equal(makeRoundCalls, 1);
-  assert.equal(messages.length, 4);
+  expect(result).toBe(false);
+  expect(makeRoundCalls).toBe(1);
+  expect(messages).toHaveLength(4);
 });
 
 test("default ask reads the answer via readline-sync", () => {
   const { game, state } = makeCountingGame();
-  const question = mock.method(readlineSync, "question", () => String(state.makeRoundCalls));
+  const question = vi
+    .spyOn(readlineSync, "question")
+    .mockImplementation(() => String(state.makeRoundCalls));
   try {
     const messages = captureOutput(() => runGame(game, "Ann"));
 
-    assert.equal(question.mock.calls[0].arguments[0], "Your answer: ");
-    assert.deepEqual(messages, [
+    expect(question.mock.calls[0][0]).toBe("Your answer: ");
+    expect(messages).toEqual([
       "Fake task?",
       "Question: 1 + 0",
       "Correct!",
@@ -109,6 +111,6 @@ test("default ask reads the answer via readline-sync", () => {
       "Congratulations, Ann!",
     ]);
   } finally {
-    question.mock.restore();
+    question.mockRestore();
   }
 });

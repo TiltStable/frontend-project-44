@@ -15,7 +15,8 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test \"src/**/*.test.js\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "oxlint && oxfmt --ignore-path=.oxfmtignore --check",
     "lint:fix": "oxfmt && oxlint --fix"
   },
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "oxfmt": "^0.70.0",
-    "oxlint": "^1.85.0"
+    "oxlint": "^1.85.0",
+    "vitest": "^5.0.2"
   }
 }
